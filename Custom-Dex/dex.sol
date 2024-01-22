@@ -7,6 +7,7 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 contract Pair is ReentrancyGuard {
     mapping(bytes => Pool) pools;
     uint256 INITIAL_LP_TOKENS = 1000 * 10**18;
+    uint256 LP_FEE = 3 *100 /100;
 
     struct Pool {
         mapping(address => uint256) tokenBalances;
@@ -205,6 +206,27 @@ contract Pair is ReentrancyGuard {
     function swap(
         address from,
         address to,
-        uint256 amount
-    ) public returns (uint256) {}
+        uint256 _amount
+    )
+    validTokenAddresses(from, to)
+        poolMustExist(from, to)
+        nonReentrant
+         public returns (uint256) {
+        Pool storage pool = getPool(from, to);
+        uint r = 10000 - LP_FEE;
+        uint amountIn = r * _amount / 10000;
+
+        uint outputTokens = pool.tokenBalances[to] * amountIn / pool.tokenBalances[from] + amountIn;
+        pool.tokenBalances[from] += _amount;
+        pool.tokenBalances[to] -= outputTokens;
+
+        erc20 contractFrom = erc20(from);
+        erc20 contractTo = erc20(to);
+
+        require(contractFrom.transferFrom(msg.sender, address(this), _amount), "Transfer Failed");
+        require(contractTo.transfer(msg.sender, outputTokens), "Transfer Failed");
+
+
+
+    }
 }
