@@ -1,0 +1,175 @@
+{
+	"compiler": {
+		"version": "0.8.20+commit.a1b79de6"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_token0Address",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "token1Address",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_token0Amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_token1Amount",
+						"type": "uint256"
+					}
+				],
+				"name": "addLiquidity",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_token0Address",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_token1Address",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_token0Amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_token1Amount",
+						"type": "uint256"
+					}
+				],
+				"name": "createPair",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_token0Address",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "token1Address",
+						"type": "address"
+					}
+				],
+				"name": "removeLiquidity",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "from",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "to",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "swap",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"Custom-Dex/dex.sol": "Pair"
+		},
+		"evmVersion": "london",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": true,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"Custom-Dex/dex.sol": {
+			"keccak256": "0xb3019f19218207afe1acdf40cd3a6dbd9250569df7f61a622f9136dfc95f3b64",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://4473dbe294eb375362897b8a1840e08432ec2829c3e932bd74f7ca41b8e50bb4",
+				"dweb:/ipfs/QmVLCYQRyTXW1XvkKGwQi89MmAwcgaiUGuwNxhRyh4TBKH"
+			]
+		},
+		"Custom-Dex/erc-20.sol": {
+			"keccak256": "0x8ef72ff97217d685c003f96b48d0c0f1f712ae90ead469a025873559af7a1893",
+			"license": "GPL-3.0",
+			"urls": [
+				"bzz-raw://3fb46ea75ebfd046d58c9485bfc21c7d092ebb4fdcaaef278da4b9b9ac80103e",
+				"dweb:/ipfs/QmVw2dZazt1G4ufFjpUmP6pjRnQCTAe8WD7dcfH4x5UHCa"
+			]
+		}
+	},
+	"version": 1
+}
