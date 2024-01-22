@@ -20,6 +20,8 @@ contract Pair{
         erc20 token0Address = erc20(_token0Address);
         erc20 token1Address = erc20(_token1Address);  
 
+        require(token0Address.balanceOf(msg.sender)>= _amount0,"Insufficient Balance");
+        require(token1Address.balanceOf(msg.sender)>= _amount1,"Insufficient Balance");
         require(token0Address.allowance(msg.sender,address(this))== _amount0,"Insufficient allowance for token0");
         require(token1Address.allowance(msg.sender,address(this))==_amount1,"Insufficient allowance for token1");
 

@@ -155,11 +155,11 @@
 	},
 	"sources": {
 		"Custom-Dex/dex.sol": {
-			"keccak256": "0xb3019f19218207afe1acdf40cd3a6dbd9250569df7f61a622f9136dfc95f3b64",
+			"keccak256": "0x3058345df16e4cf08d5b54d88939d5c2df15d0e62a5fa8b382b6c1beb1e659d7",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://4473dbe294eb375362897b8a1840e08432ec2829c3e932bd74f7ca41b8e50bb4",
-				"dweb:/ipfs/QmVLCYQRyTXW1XvkKGwQi89MmAwcgaiUGuwNxhRyh4TBKH"
+				"bzz-raw://cbcbbc0d9f7bf896b4b4aeecb16a92cd59b3b11a2e592d9d07e783963d7b5b25",
+				"dweb:/ipfs/QmczzBMhy7wmYJ6ZYLEjQNEz8QcY7sFc1mCVpFcuU9Jebx"
 			]
 		},
 		"Custom-Dex/erc-20.sol": {
