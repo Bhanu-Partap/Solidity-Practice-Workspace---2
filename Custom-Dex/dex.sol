@@ -55,10 +55,10 @@ contract Pair is ReentrancyGuard {
         _;
     }
 
-    modifier poolMustExist(address _token0Address, address _token1Address){
+    modifier poolMustExist(address _token0Address, address _token1Address) {
         Pool storage pool = getPool(_token0Address, _token1Address);
-        require(pool.tokenBalances[_token0Address] !=0 , " pool must exist");
-        require(pool.tokenBalances[_token1Address] !=0 , " pool must exist");
+        require(pool.tokenBalances[_token0Address] != 0, " pool must exist");
+        require(pool.tokenBalances[_token1Address] != 0, " pool must exist");
 
         _;
     }
@@ -104,6 +104,20 @@ contract Pair is ReentrancyGuard {
         );
     }
 
+    function getSpotPrice(address _token0Address, address _token1Address)
+        public
+        view
+        returns (uint256)
+    {
+        Pool storage pool = getPool(_token0Address, _token1Address);
+        require(
+            pool.tokenBalances[_token0Address] > 0 &&
+                pool.tokenBalances[_token1Address] > 0,
+            " Token value must be non - zero"
+        );
+        return(pool.tokenBalances[_token0Address]* 10**18/ pool.tokenBalances[_token1Address])
+    }
+
     function createPool(
         address _token0Address,
         address _token1Address,
@@ -126,6 +140,8 @@ contract Pair is ReentrancyGuard {
         pool.tokenBalances[_token1Address] = _token1Amount;
         pool.lpBalances[msg.sender] = INITIAL_LP_TOKENS;
         pool.totalLpTokens = INITIAL_LP_TOKENS;
+
+
     }
 
     function addLiquidity(
@@ -142,13 +158,25 @@ contract Pair is ReentrancyGuard {
             _token0Amount,
             _token1Amount
         )
-        poolMustExist(_token0Address,  _token1Address)
+        poolMustExist(_token0Address, _token1Address)
         nonReentrant
         returns (uint256)
     {
         Pool storage pool = getPool(_token0Address, _token1Address);
-        uint token0Price=getSpotPrice(_token0Address, _token1Address);
-        require(token0Price * _token0Amount * _token1Amount * 10**18, " must add liquidity at current spot price" );
+        uint256 token0Price = getSpotPrice(_token0Address, _token1Address);
+        require(
+            token0Price * _token0Amount * _token1Amount * 10**18,
+            " must add liquidity at current spot price"
+        );
+        transferToken(_token0Address, _token1Address, _token0Amount,_token1Amount);
+        uint currentBalance = pool.tokenBalances[_token0Address];
+        uint newTokens = (_token0Amount * INITIAL_LP_TOKENS) / currentBalance;
+
+        pool.tokenBalances[_token0Address] += _token0Amount;
+        pool.tokenBalances[_token1Address] += _token1Amount;
+        pool.totalLpTokens += newTokens;
+        pool.lpBalances[msg.sender] += newTokens;
+
     }
 
     function removeLiquidity(address _token0Address, address token1Address)
