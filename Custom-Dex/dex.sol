@@ -5,9 +5,12 @@ import  "./erc-20.sol";
 
 contract Pair{
 
+    mapping(bytes=> Pool) pools;
+
     struct Pool{
         mapping(address=>uint) tokenBalances;
         mapping(address=>uint256) lpBalances;
+        uint totalLpTokens;
     }
 
     modifier validTokenAddresses(address _token0Address, address _token1Address){
@@ -28,7 +31,29 @@ contract Pair{
         _;
     }
 
+    function getPool(address _token0Address, address _token1Address) internal view returns(Pool storage pool){
+        bytes memory key;
+        if(_token0Address< _token1Address){
+            key = abi.encodePacked(_token0Address, _token1Address);
+        }
+        else{
+            key = abi.encodePacked(_token1Address, _token0Address);
+        }
+        return Pool[key];
+    }
+
+    function transferToken(address _token0Address, address _token1Address, uint _token0Amount, uint _token1Amount) public {
+        erc20 token0Address = erc20(_token0Address);
+        erc20 token1Address = erc20(_token1Address);  
+
+        require(token0Address.transferFrom(msg.sender, address(this), _token0Amount),"Transfer of token0 Failed");  
+        require(token1Address.transferFrom(msg.sender, address(this), _token1Amount),"Transfer of token1 Failed");  
+
+    }
+
     function createPair(address _token0Address, address _token1Address, uint256 _token0Amount, uint256 _token1Amount ) validTokenAddresses(_token0Address,  _token1Address)  public returns(uint256){
+        Pool storage pool = getPool(_token0Address, _token1Address);
+        require(pool.tokenBalances[_token0Address] ==0,"Pool Already Exist");
 
     }       
 
