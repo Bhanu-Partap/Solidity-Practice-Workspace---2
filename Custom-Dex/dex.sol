@@ -54,6 +54,9 @@ contract Pair{
     function createPair(address _token0Address, address _token1Address, uint256 _token0Amount, uint256 _token1Amount ) validTokenAddresses(_token0Address,  _token1Address)  public returns(uint256){
         Pool storage pool = getPool(_token0Address, _token1Address);
         require(pool.tokenBalances[_token0Address] ==0,"Pool Already Exist");
+        pool.tokenBalances[_token0Address]=_token0Amount;
+        pool.tokenBalances[_token1Address]=_token1Amount;
+        
 
     }       
 
