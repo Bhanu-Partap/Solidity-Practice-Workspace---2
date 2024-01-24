@@ -4,27 +4,12 @@ pragma solidity 0.8.20;
 import "./erc-20.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
-contract Pair is ReentrancyGuard {
+contract dex is ReentrancyGuard {
     uint256 INITIAL_LP_TOKENS = 1000 * 10**18;
     uint256 LP_FEE = 3 *100 /100;
-    // uint256 tokenBalances;
-    // uint256 lpBalances;
     uint256 totalLpTokens;
     mapping(address => uint256) tokenBalances;
     mapping(address => uint256) lpBalances;
-
-
-    // mapping(bytes32 => Pool) pools;
-    
-    // struct Pool {
-    //     Pool2 [] lpdetails;
-    // }
-
-    // struct Pool2{
-    //     uint256 totalLpTokens;
-    // }
-
-
 
     // modifier validTokenAddresses(address _token0Address,address _token1Address ) {
     //     require(_token0Address != _token1Address, "Address can't be different");
@@ -70,22 +55,22 @@ contract Pair is ReentrancyGuard {
     //     return pools[key];
     // }
 
-    function transferToken( address _token0Address,address _token1Address,uint256 _token0Amount,
-        uint256 _token1Amount) public {
+    erc20 public token0Address;
+    erc20 public token1Address;
 
-        erc20 token0Address = erc20(_token0Address);
-        erc20 token1Address = erc20(_token1Address);
+
+    constructor(address _token1Address, address _token2Address) {
+    token0Address = erc20(_token1Address);
+    token1Address = erc20(_token2Address);
+}
+
+
+    function transferToken(uint256 _token0Amount, uint256 _token1Amount) public {
 
         require( token0Address.transferFrom( msg.sender,address(this), _token0Amount),
             "Transfer of token0 Failed" );
-        require(
-            token1Address.transferFrom(
-                msg.sender,
-                address(this),
-                _token1Amount
-            ),
-            "Transfer of token1 Failed"
-        );
+        require(token1Address.transferFrom(msg.sender,address(this),_token1Amount ),
+            "Transfer of token1 Failed");
     }
 
     function getSpotPrice(address _token0Address, address _token1Address)
@@ -93,7 +78,6 @@ contract Pair is ReentrancyGuard {
         view
         returns (uint256)
     {
-        // Pool storage pool = getPool(_token0Address, _token1Address);
         require(
             tokenBalances[_token0Address] > 0 &&
             tokenBalances[_token1Address] > 0,
@@ -118,7 +102,6 @@ contract Pair is ReentrancyGuard {
         // )
         // nonReentrant
     {
-        // Pool storage pool = getPool(_token0Address, _token1Address);
         // require(tokenBalances[_token0Address] == 0, "Pool Already Exist");
         tokenBalances[_token0Address] = _token0Amount;
         tokenBalances[_token1Address] = _token1Amount;
@@ -147,7 +130,7 @@ contract Pair is ReentrancyGuard {
     {
         uint256 token0Price = getSpotPrice(_token0Address, _token1Address);
         require(token0Price * _token0Amount == _token1Amount * 10**18," must add liquidity at current spot price");
-        transferToken(_token0Address, _token1Address, _token0Amount,_token1Amount);
+        transferToken(_token0Amount,_token1Amount);
         uint currentBalance = tokenBalances[_token0Address];
         uint newTokens = (_token0Amount * INITIAL_LP_TOKENS) / currentBalance;
         tokenBalances[_token0Address] += _token0Amount;
@@ -164,7 +147,6 @@ contract Pair is ReentrancyGuard {
         public
         returns (uint256)
     {
-        // Pool storage pool = getPool(_token0Address, _token1Address);
         uint balance = lpBalances[msg.sender];
         require(balance > 0,"No liquidity was provided by the user");
         uint _token0Amount = (balance * tokenBalances[_token0Address]) / totalLpTokens;
@@ -174,13 +156,8 @@ contract Pair is ReentrancyGuard {
         tokenBalances[_token1Address] -= _token1Amount;
         totalLpTokens -= balance;
 
-        erc20 token0Address = erc20(_token0Address);
-        erc20 token1Address = erc20(_token1Address);
-
         require(token0Address.transfer(msg.sender, _token0Amount), "Transfer  token0 failed !!");
         require(token1Address.transfer(msg.sender, _token1Amount), "Transfer  token1 failed !!");
-
-
     }
 
     function swap(
@@ -191,18 +168,14 @@ contract Pair is ReentrancyGuard {
     // validTokenAddresses(from, to)
     //     poolMustExist(from, to)
         nonReentrant
-         public returns (uint256) {
-        // Pool storage pool = getPool(from, to);
-        // uint r = 10000 - LP_FEE;
+         public returns (string memory) {
+        uint r = 10000 - LP_FEE;
         uint amountIn = r * _amount / 10000;
         uint outputTokens = tokenBalances[to] * amountIn / tokenBalances[from] + amountIn;
         tokenBalances[from] += _amount;
         tokenBalances[to] -= outputTokens;
-
-        erc20 contractFrom = erc20(from);
-        erc20 contractTo = erc20(to);
-
-        require(contractFrom.transferFrom(msg.sender, address(this), _amount), "Transfer Failed");
-        require(contractTo.transfer(msg.sender, outputTokens), "Transfer Failed");
+        require(token0Address.transferFrom(msg.sender, address(this), _amount), "Transfer Failed");
+        require(token1Address.transfer(msg.sender, outputTokens), "Transfer Failed");
+        return("Swapping Completed");
     }
 }

@@ -194,16 +194,6 @@
 			{
 				"inputs": [
 					{
-						"internalType": "address",
-						"name": "_token0Address",
-						"type": "address"
-					},
-					{
-						"internalType": "address",
-						"name": "_token1Address",
-						"type": "address"
-					},
-					{
 						"internalType": "uint256",
 						"name": "_token0Amount",
 						"type": "uint256"
@@ -233,7 +223,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"Custom-Dex/dex.sol": "Pair"
+			"Custom-Dex/dex.sol": "dex"
 		},
 		"evmVersion": "london",
 		"libraries": {},
@@ -256,11 +246,11 @@
 			]
 		},
 		"Custom-Dex/dex.sol": {
-			"keccak256": "0x93766acb7ae61822c50e19a088b5ef0e408baaa2ec0d53581ab017a9a56f0843",
+			"keccak256": "0x391bacd1dd346c861b1c8c57f3260d43b981f116eab1333017156fddad6fdde7",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://e856cbb4be709a92f4723193a66242e60bdb8bfce35a2193283b0db49e2d8bf5",
-				"dweb:/ipfs/QmUy59pqQPWkLP1CbbWaeBPQWD1fDucZroJDnuhthtnG8f"
+				"bzz-raw://dc127f1da1fc5cd79108338ed11d49c874b9803cf17fd476adfdd7763210fc38",
+				"dweb:/ipfs/QmbvjsTg6HeEtydokeca44ojP2wTxaEU9deZXfySBTmTg4"
 			]
 		},
 		"Custom-Dex/erc-20.sol": {
