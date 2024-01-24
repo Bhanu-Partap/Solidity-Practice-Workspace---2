@@ -113,6 +113,19 @@
 				"type": "function"
 			},
 			{
+				"inputs": [],
+				"name": "lptoken",
+				"outputs": [
+					{
+						"internalType": "contract erc20",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
 				"inputs": [
 					{
 						"internalType": "address",
@@ -126,13 +139,7 @@
 					}
 				],
 				"name": "removeLiquidity",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
+				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
 			},
@@ -246,11 +253,11 @@
 			]
 		},
 		"Custom-Dex/dex.sol": {
-			"keccak256": "0x95730afc682fd9d372c7bab2efde4f6ecb4e02dbf86493d78c0fde24d8b282c6",
+			"keccak256": "0xebd2bcfb34b9479b1d1f960c53f15856f3a8f9653383af1e583d5f1236184297",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://45d773906d40f9be3b415f1e9c9007eba31168f1097d3de09da830f8c3b741a5",
-				"dweb:/ipfs/QmaBSnjNumK24V3XHdidRg2ZHUCwPDWXDqaB7mK3KUACqp"
+				"bzz-raw://b11c811f21c9f62cc08379df7a9be1c1882c58db252c368dad31e74495c2dcd8",
+				"dweb:/ipfs/Qmd4bLnUPaxD2tohWyhxwzhyg9Dk12rFbS7axya1cTM7nH"
 			]
 		},
 		"Custom-Dex/erc-20.sol": {
@@ -259,6 +266,14 @@
 			"urls": [
 				"bzz-raw://3fb46ea75ebfd046d58c9485bfc21c7d092ebb4fdcaaef278da4b9b9ac80103e",
 				"dweb:/ipfs/QmVw2dZazt1G4ufFjpUmP6pjRnQCTAe8WD7dcfH4x5UHCa"
+			]
+		},
+		"hardhat/console.sol": {
+			"keccak256": "0x7434453e6d3b7d0e5d0eb7846ffdbc27f0ccf3b163591263739b628074dc103a",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://49355f780520494d1d5a0f01858385e51bb5280ce0ecfb960f16995065dca395",
+				"dweb:/ipfs/QmSwJ6C5QLz6xKeQZS8wbwjU1KxRFTYfwbGmtzisd5sRW4"
 			]
 		}
 	},

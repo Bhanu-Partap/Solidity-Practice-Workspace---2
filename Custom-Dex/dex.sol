@@ -3,6 +3,7 @@ pragma solidity 0.8.20;
 
 import "./erc-20.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "hardhat/console.sol";
 
 contract dex is ReentrancyGuard {
     uint256 INITIAL_LP_TOKENS = 1000 * 10**18;
@@ -57,6 +58,8 @@ contract dex is ReentrancyGuard {
 
     erc20 public token0Address;
     erc20 public token1Address;
+    erc20 public lptoken;
+
 
 
     constructor(address _token1Address, address _token2Address) {
@@ -108,6 +111,7 @@ contract dex is ReentrancyGuard {
         token1Address.approve(msg.sender, _token1Address, _token1Amount);
         lpBalances[msg.sender] = INITIAL_LP_TOKENS;
         totalLpTokens = INITIAL_LP_TOKENS;
+        console.log(totalLpTokens);
     }
 
 
@@ -130,10 +134,12 @@ contract dex is ReentrancyGuard {
         returns (string memory, uint256)
     {
         uint256 token0Price = getSpotPrice(_token0Address, _token1Address);
+        console.log(token0Price);
         require(token0Price * _token0Amount == _token1Amount * 10**18," must add liquidity at current spot price");
         transferToken(_token0Amount,_token1Amount);
         uint currentBalance = tokenBalances[_token0Address];
         uint newTokens = (_token0Amount * INITIAL_LP_TOKENS) / currentBalance;
+        console.log(newTokens);
         tokenBalances[_token0Address] += _token0Amount;
         tokenBalances[_token1Address] += _token1Amount;
         totalLpTokens += newTokens;
@@ -146,7 +152,6 @@ contract dex is ReentrancyGuard {
     //     poolMustExist(_token0Address, _token1Address)
     //     nonReentrant
         public
-        returns (uint256)
     {
         uint balance = lpBalances[msg.sender];
         require(balance > 0,"No liquidity was provided by the user");
@@ -172,7 +177,7 @@ contract dex is ReentrancyGuard {
          public returns (string memory) {
         // uint r = 10000 - LP_FEE;
         uint k = tokenBalances[from] * tokenBalances[to];
-        uint amountIn =  _amount / 10000;
+        uint amountIn = k * _amount / 10000;
         uint outputTokens = tokenBalances[to] * amountIn / tokenBalances[from] + amountIn;
         tokenBalances[from] += _amount;
         tokenBalances[to] -= outputTokens;
