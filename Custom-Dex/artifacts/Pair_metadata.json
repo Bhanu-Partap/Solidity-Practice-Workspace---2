@@ -14,7 +14,7 @@
 					},
 					{
 						"internalType": "address",
-						"name": "token1Address",
+						"name": "_token1Address",
 						"type": "address"
 					},
 					{
@@ -29,6 +29,116 @@
 					}
 				],
 				"name": "addLiquidity",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_token0Address",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_token1Address",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_token0Amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_token1Amount",
+						"type": "uint256"
+					}
+				],
+				"name": "createPool",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_token0Address",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_token1Address",
+						"type": "address"
+					}
+				],
+				"name": "getSpotPrice",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_token0Address",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "_token1Address",
+						"type": "address"
+					}
+				],
+				"name": "removeLiquidity",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "from",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "to",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_amount",
+						"type": "uint256"
+					}
+				],
+				"name": "swap",
 				"outputs": [
 					{
 						"internalType": "uint256",
@@ -62,67 +172,8 @@
 						"type": "uint256"
 					}
 				],
-				"name": "createPair",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "_token0Address",
-						"type": "address"
-					},
-					{
-						"internalType": "address",
-						"name": "token1Address",
-						"type": "address"
-					}
-				],
-				"name": "removeLiquidity",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "from",
-						"type": "address"
-					},
-					{
-						"internalType": "address",
-						"name": "to",
-						"type": "address"
-					},
-					{
-						"internalType": "uint256",
-						"name": "amount",
-						"type": "uint256"
-					}
-				],
-				"name": "swap",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
+				"name": "transferToken",
+				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
 			}
@@ -154,12 +205,20 @@
 		"remappings": []
 	},
 	"sources": {
-		"Custom-Dex/dex.sol": {
-			"keccak256": "0x3058345df16e4cf08d5b54d88939d5c2df15d0e62a5fa8b382b6c1beb1e659d7",
+		"@openzeppelin/contracts/security/ReentrancyGuard.sol": {
+			"keccak256": "0xa535a5df777d44e945dd24aa43a11e44b024140fc340ad0dfe42acf4002aade1",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://cbcbbc0d9f7bf896b4b4aeecb16a92cd59b3b11a2e592d9d07e783963d7b5b25",
-				"dweb:/ipfs/QmczzBMhy7wmYJ6ZYLEjQNEz8QcY7sFc1mCVpFcuU9Jebx"
+				"bzz-raw://41319e7f621f2dc3733511332c4fd032f8e32ad2aa7fd6f665c19741d9941a34",
+				"dweb:/ipfs/QmcYR3bd862GD1Bc7jwrU9bGxrhUu5na1oP964bDCu2id1"
+			]
+		},
+		"Custom-Dex/dex.sol": {
+			"keccak256": "0x68dbc396145e718e97dfc5802fa8c82b19e696a16102ccfcbd143c870511cfe9",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://00c7e619b8c393fe20939f33eba5c18d8cd69af8059fd00da20e14256f6b0e52",
+				"dweb:/ipfs/QmT58ABZAAa9XXg5rv8TveQxMT6iqxt1tKL27gZKb1jBn5"
 			]
 		},
 		"Custom-Dex/erc-20.sol": {

@@ -7,64 +7,68 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 contract Pair is ReentrancyGuard {
     uint256 INITIAL_LP_TOKENS = 1000 * 10**18;
     uint256 LP_FEE = 3 *100 /100;
+    // uint256 tokenBalances;
+    // uint256 lpBalances;
+    uint256 totalLpTokens;
+    mapping(address => uint256) tokenBalances;
+    mapping(address => uint256) lpBalances;
 
-    mapping(bytes32 => Pool) pools;
+
+    // mapping(bytes32 => Pool) pools;
     
-    struct Pool {
-        mapping(address => uint256) tokenBalances;
-        Pool2 [] lpdetails;
-    }
+    // struct Pool {
+    //     Pool2 [] lpdetails;
+    // }
 
-    struct Pool2{
-        mapping(address => uint256) lpBalances;
-        uint256 totalLpTokens;
-    }
+    // struct Pool2{
+    //     uint256 totalLpTokens;
+    // }
 
 
 
-    modifier validTokenAddresses(address _token0Address,address _token1Address ) {
-        require(_token0Address != _token1Address, "Address can't be different");
-        require(_token0Address != address(0) && _token1Address != address(0),
-            "Address must be valid");
-        _;
-    }
+    // modifier validTokenAddresses(address _token0Address,address _token1Address ) {
+    //     require(_token0Address != _token1Address, "Address can't be different");
+    //     require(_token0Address != address(0) && _token1Address != address(0),
+    //         "Address must be valid");
+    //     _;
+    // }
 
-    modifier hasBalanceAndAllowance( address _token0Address,address _token1Address,
-        uint256 _token0Amount,
-        uint256 _token1Amount
-    ) {
-        erc20 token0Address = erc20(_token0Address);
-        erc20 token1Address = erc20(_token1Address);
+    // modifier hasBalanceAndAllowance( address _token0Address,address _token1Address,
+    //     uint256 _token0Amount,
+    //     uint256 _token1Amount
+    // ) {
+    //     erc20 token0Address = erc20(_token0Address);
+    //     erc20 token1Address = erc20(_token1Address);
 
-        require(token0Address.balanceOf(msg.sender) >= _token0Amount,
-            "Insufficient Balance");
-        require(token1Address.balanceOf(msg.sender) >= _token1Amount,
-            "Insufficient Balance");
-        require( token0Address.allowance(msg.sender, address(this)) == _token0Amount,
-            "Insufficient allowance for token0" );
-        require( token1Address.allowance(msg.sender, address(this)) == _token1Amount,
-            "Insufficient allowance for token1" );
-        _;
-    }
+    //     require(token0Address.balanceOf(msg.sender) >= _token0Amount,
+    //         "Insufficient Balance");
+    //     require(token1Address.balanceOf(msg.sender) >= _token1Amount,
+    //         "Insufficient Balance");
+    //     require( token0Address.allowance(msg.sender, address(this)) == _token0Amount,
+    //         "Insufficient allowance for token0" );
+    //     require( token1Address.allowance(msg.sender, address(this)) == _token1Amount,
+    //         "Insufficient allowance for token1" );
+    //     _;
+    // }
 
-    modifier poolMustExist(address _token0Address, address _token1Address) {
-        Pool storage pool = getPool(_token0Address, _token1Address);
-        require(pool.tokenBalances[_token0Address] != 0, " pool must exist");
-        require(pool.tokenBalances[_token1Address] != 0, " pool must exist");
-        _;
-    }
+    // modifier poolMustExist(address _token0Address, address _token1Address) {
+    //     Pool storage pool = getPool(_token0Address, _token1Address);
+    //     require(pool.tokenBalances[_token0Address] != 0, " pool must exist");
+    //     require(pool.tokenBalances[_token1Address] != 0, " pool must exist");
+    //     _;
+    // }
 
-    function getPool(address _token0Address, address _token1Address) internal view 
-    returns (Pool storage pool)
-    {
-        bytes32 key;
-        if (_token0Address < _token1Address) {
-            key = keccak256(abi.encodePacked(_token0Address, _token1Address));
-        } else {
-            key = keccak256(abi.encodePacked(_token1Address, _token0Address));
-        }
-        return pools[key];
-    }
+    // function getPool(address _token0Address, address _token1Address) internal view 
+    // returns ()
+    // {
+    //     bytes32 key;
+    //     if (_token0Address < _token1Address) {
+    //         key = keccak256(abi.encodePacked(_token0Address, _token1Address));
+    //     } else {
+    //         key = keccak256(abi.encodePacked(_token1Address, _token0Address));
+    //     }
+    //     return pools[key];
+    // }
 
     function transferToken( address _token0Address,address _token1Address,uint256 _token0Amount,
         uint256 _token1Amount) public {
@@ -89,13 +93,13 @@ contract Pair is ReentrancyGuard {
         view
         returns (uint256)
     {
-        Pool storage pool = getPool(_token0Address, _token1Address);
+        // Pool storage pool = getPool(_token0Address, _token1Address);
         require(
-            pool.tokenBalances[_token0Address] > 0 &&
-                pool.tokenBalances[_token1Address] > 0,
-            " Token value must be non - zero"
+            tokenBalances[_token0Address] > 0 &&
+            tokenBalances[_token1Address] > 0,
+            " Token balance must be non - zero"
         );
-        return(pool.tokenBalances[_token0Address]* 10**18/ pool.tokenBalances[_token1Address]);
+        return(tokenBalances[_token0Address]* 10**18 / tokenBalances[_token1Address]);
     }
 
     function createPool(
@@ -105,22 +109,23 @@ contract Pair is ReentrancyGuard {
         uint256 _token1Amount
     )
         public
-        validTokenAddresses(_token0Address, _token1Address)
-        hasBalanceAndAllowance(
-            _token0Address,
-            _token1Address,
-            _token0Amount,
-            _token1Amount
-        )
-        nonReentrant
+        // validTokenAddresses(_token0Address, _token1Address)
+        // hasBalanceAndAllowance(
+        //     _token0Address,
+        //     _token1Address,
+        //     _token0Amount,
+        //     _token1Amount
+        // )
+        // nonReentrant
     {
-        Pool storage pool = getPool(_token0Address, _token1Address);
-        require(pool.tokenBalances[_token0Address] == 0, "Pool Already Exist");
-        pool.tokenBalances[_token0Address] = _token0Amount;
-        pool.tokenBalances[_token1Address] = _token1Amount;
-        pool.lpdetails[0].lpBalances[msg.sender] = INITIAL_LP_TOKENS;
-        pool.lpdetails[1].totalLpTokens = INITIAL_LP_TOKENS;
+        // Pool storage pool = getPool(_token0Address, _token1Address);
+        // require(tokenBalances[_token0Address] == 0, "Pool Already Exist");
+        tokenBalances[_token0Address] = _token0Amount;
+        tokenBalances[_token1Address] = _token1Amount;
+        lpBalances[msg.sender] = INITIAL_LP_TOKENS;
+        totalLpTokens = INITIAL_LP_TOKENS;
     }
+
 
     function addLiquidity(
         address _token0Address,
@@ -129,46 +134,45 @@ contract Pair is ReentrancyGuard {
         uint256 _token1Amount
     )
         public
-        validTokenAddresses(_token0Address, _token1Address)
-        hasBalanceAndAllowance(
-            _token0Address,
-            _token1Address,
-            _token0Amount,
-            _token1Amount
-        )
-        poolMustExist(_token0Address, _token1Address)
-        nonReentrant
-        returns (uint256)
+        // validTokenAddresses(_token0Address, _token1Address)
+        // hasBalanceAndAllowance(
+        //     _token0Address,
+        //     _token1Address,
+        //     _token0Amount,
+        //     _token1Amount
+        // )
+        // // poolMustExist(_token0Address, _token1Address)
+        // nonReentrant
+        returns (string memory, uint256)
     {
-        Pool storage pool = getPool(_token0Address, _token1Address);
         uint256 token0Price = getSpotPrice(_token0Address, _token1Address);
         require(token0Price * _token0Amount == _token1Amount * 10**18," must add liquidity at current spot price");
         transferToken(_token0Address, _token1Address, _token0Amount,_token1Amount);
-        uint currentBalance = pool.tokenBalances[_token0Address];
+        uint currentBalance = tokenBalances[_token0Address];
         uint newTokens = (_token0Amount * INITIAL_LP_TOKENS) / currentBalance;
-        pool.tokenBalances[_token0Address] += _token0Amount;
-        pool.tokenBalances[_token1Address] += _token1Amount;
-        pool.lpdetails[1].totalLpTokens += newTokens;
-        pool.lpdetails[0].lpBalances[msg.sender] += newTokens;
-
+        tokenBalances[_token0Address] += _token0Amount;
+        tokenBalances[_token1Address] += _token1Amount;
+        totalLpTokens += newTokens;
+        lpBalances[msg.sender] += newTokens;
+        return("Lp token balance w.r.t added liquidity",lpBalances[msg.sender]);
     }
 
     function removeLiquidity(address _token0Address, address _token1Address)
-     validTokenAddresses(_token0Address, _token1Address)
-        poolMustExist(_token0Address, _token1Address)
-        nonReentrant
+    //  validTokenAddresses(_token0Address, _token1Address)
+    //     poolMustExist(_token0Address, _token1Address)
+    //     nonReentrant
         public
         returns (uint256)
     {
-        Pool storage pool = getPool(_token0Address, _token1Address);
-        uint balance = pool.lpdetails[1].lpBalances[msg.sender];
+        // Pool storage pool = getPool(_token0Address, _token1Address);
+        uint balance = lpBalances[msg.sender];
         require(balance > 0,"No liquidity was provided by the user");
-        uint _token0Amount = (balance * pool.tokenBalances[_token0Address]) / pool.lpdetails[0].totalLpTokens;
-        uint _token1Amount = (balance * pool.tokenBalances[_token1Address]) / pool.lpdetails[0].totalLpTokens;
-        pool.lpdetails[1].lpBalances[msg.sender] = 0;
-        pool.tokenBalances[_token0Address] -= _token0Amount;
-        pool.tokenBalances[_token1Address] -= _token1Amount;
-        pool.lpdetails[0].totalLpTokens -= balance;
+        uint _token0Amount = (balance * tokenBalances[_token0Address]) / totalLpTokens;
+        uint _token1Amount = (balance * tokenBalances[_token1Address]) / totalLpTokens;
+        lpBalances[msg.sender] = 0;
+        tokenBalances[_token0Address] -= _token0Amount;
+        tokenBalances[_token1Address] -= _token1Amount;
+        totalLpTokens -= balance;
 
         erc20 token0Address = erc20(_token0Address);
         erc20 token1Address = erc20(_token1Address);
@@ -184,16 +188,16 @@ contract Pair is ReentrancyGuard {
         address to,
         uint256 _amount
     )
-    validTokenAddresses(from, to)
-        poolMustExist(from, to)
+    // validTokenAddresses(from, to)
+    //     poolMustExist(from, to)
         nonReentrant
          public returns (uint256) {
-        Pool storage pool = getPool(from, to);
-        uint r = 10000 - LP_FEE;
+        // Pool storage pool = getPool(from, to);
+        // uint r = 10000 - LP_FEE;
         uint amountIn = r * _amount / 10000;
-        uint outputTokens = pool.tokenBalances[to] * amountIn / pool.tokenBalances[from] + amountIn;
-        pool.tokenBalances[from] += _amount;
-        pool.tokenBalances[to] -= outputTokens;
+        uint outputTokens = tokenBalances[to] * amountIn / tokenBalances[from] + amountIn;
+        tokenBalances[from] += _amount;
+        tokenBalances[to] -= outputTokens;
 
         erc20 contractFrom = erc20(from);
         erc20 contractTo = erc20(to);
