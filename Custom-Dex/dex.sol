@@ -5,54 +5,39 @@ import "./erc-20.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
 contract Pair is ReentrancyGuard {
-    mapping(bytes => Pool) pools;
     uint256 INITIAL_LP_TOKENS = 1000 * 10**18;
     uint256 LP_FEE = 3 *100 /100;
 
+    mapping(bytes32 => Pool) pools;
+    
     struct Pool {
         mapping(address => uint256) tokenBalances;
         mapping(address => uint256) lpBalances;
         uint256 totalLpTokens;
     }
 
-    modifier validTokenAddresses(
-        address _token0Address,
-        address _token1Address
-    ) {
+    modifier validTokenAddresses(address _token0Address,address _token1Address ) {
         require(_token0Address != _token1Address, "Address can't be different");
-        require(
-            _token0Address != address(0) && _token1Address != address(0),
-            "Address must be valid"
-        );
+        require(_token0Address != address(0) && _token1Address != address(0),
+            "Address must be valid");
         _;
     }
 
-    modifier hasBalanceAndAllowance(
-        address _token0Address,
-        address _token1Address,
+    modifier hasBalanceAndAllowance( address _token0Address,address _token1Address,
         uint256 _token0Amount,
         uint256 _token1Amount
     ) {
         erc20 token0Address = erc20(_token0Address);
         erc20 token1Address = erc20(_token1Address);
 
-        require(
-            token0Address.balanceOf(msg.sender) >= _token0Amount,
-            "Insufficient Balance"
-        );
-        require(
-            token1Address.balanceOf(msg.sender) >= _token1Amount,
-            "Insufficient Balance"
-        );
-        require(
-            token0Address.allowance(msg.sender, address(this)) == _token0Amount,
-            "Insufficient allowance for token0"
-        );
-        require(
-            token1Address.allowance(msg.sender, address(this)) == _token1Amount,
-            "Insufficient allowance for token1"
-        );
-
+        require(token0Address.balanceOf(msg.sender) >= _token0Amount,
+            "Insufficient Balance");
+        require(token1Address.balanceOf(msg.sender) >= _token1Amount,
+            "Insufficient Balance");
+        require( token0Address.allowance(msg.sender, address(this)) == _token0Amount,
+            "Insufficient allowance for token0" );
+        require( token1Address.allowance(msg.sender, address(this)) == _token1Amount,
+            "Insufficient allowance for token1" );
         _;
     }
 
@@ -60,41 +45,29 @@ contract Pair is ReentrancyGuard {
         Pool storage pool = getPool(_token0Address, _token1Address);
         require(pool.tokenBalances[_token0Address] != 0, " pool must exist");
         require(pool.tokenBalances[_token1Address] != 0, " pool must exist");
-
         _;
     }
 
-    function getPool(address _token0Address, address _token1Address)
-        internal
-        view
-        returns (Pool storage pool)
+    function getPool(address _token0Address, address _token1Address) internal view 
+    returns (Pool storage pool)
     {
-        bytes memory key;
+        bytes32 key;
         if (_token0Address < _token1Address) {
-            key = abi.encodePacked(_token0Address, _token1Address);
+            key = keccak256(abi.encodePacked(_token0Address, _token1Address));
         } else {
-            key = abi.encodePacked(_token1Address, _token0Address);
+            key = keccak256(abi.encodePacked(_token1Address, _token0Address));
         }
-        return Pool[key];
+        return pools[key];
     }
 
-    function transferToken(
-        address _token0Address,
-        address _token1Address,
-        uint256 _token0Amount,
-        uint256 _token1Amount
-    ) public {
+    function transferToken( address _token0Address,address _token1Address,uint256 _token0Amount,
+        uint256 _token1Amount) public {
+
         erc20 token0Address = erc20(_token0Address);
         erc20 token1Address = erc20(_token1Address);
 
-        require(
-            token0Address.transferFrom(
-                msg.sender,
-                address(this),
-                _token0Amount
-            ),
-            "Transfer of token0 Failed"
-        );
+        require( token0Address.transferFrom( msg.sender,address(this), _token0Amount),
+            "Transfer of token0 Failed" );
         require(
             token1Address.transferFrom(
                 msg.sender,
@@ -215,7 +188,6 @@ contract Pair is ReentrancyGuard {
         Pool storage pool = getPool(from, to);
         uint r = 10000 - LP_FEE;
         uint amountIn = r * _amount / 10000;
-
         uint outputTokens = pool.tokenBalances[to] * amountIn / pool.tokenBalances[from] + amountIn;
         pool.tokenBalances[from] += _amount;
         pool.tokenBalances[to] -= outputTokens;
@@ -225,8 +197,5 @@ contract Pair is ReentrancyGuard {
 
         require(contractFrom.transferFrom(msg.sender, address(this), _amount), "Transfer Failed");
         require(contractTo.transfer(msg.sender, outputTokens), "Transfer Failed");
-
-
-
     }
 }
