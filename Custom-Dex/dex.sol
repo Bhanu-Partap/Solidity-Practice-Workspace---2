@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
 contract dex is ReentrancyGuard {
     uint256 INITIAL_LP_TOKENS = 1000 * 10**18;
-    uint256 LP_FEE = 3 *100 /100;
+    // uint256 LP_FEE = 3 *100 /100;
     uint256 totalLpTokens;
     mapping(address => uint256) tokenBalances;
     mapping(address => uint256) lpBalances;
@@ -64,7 +64,6 @@ contract dex is ReentrancyGuard {
     token1Address = erc20(_token2Address);
 }
 
-
     function transferToken(uint256 _token0Amount, uint256 _token1Amount) public {
 
         require( token0Address.transferFrom( msg.sender,address(this), _token0Amount),
@@ -102,9 +101,11 @@ contract dex is ReentrancyGuard {
         // )
         // nonReentrant
     {
-        // require(tokenBalances[_token0Address] == 0, "Pool Already Exist");
+        require(tokenBalances[_token0Address] == 0, "Pool Already Exist");
         tokenBalances[_token0Address] = _token0Amount;
         tokenBalances[_token1Address] = _token1Amount;
+        token0Address.approve(msg.sender, _token0Address, _token0Amount);
+        token1Address.approve(msg.sender, _token1Address, _token1Amount);
         lpBalances[msg.sender] = INITIAL_LP_TOKENS;
         totalLpTokens = INITIAL_LP_TOKENS;
     }
@@ -169,8 +170,9 @@ contract dex is ReentrancyGuard {
     //     poolMustExist(from, to)
         nonReentrant
          public returns (string memory) {
-        uint r = 10000 - LP_FEE;
-        uint amountIn = r * _amount / 10000;
+        // uint r = 10000 - LP_FEE;
+        uint k = tokenBalances[from] * tokenBalances[to];
+        uint amountIn =  _amount / 10000;
         uint outputTokens = tokenBalances[to] * amountIn / tokenBalances[from] + amountIn;
         tokenBalances[from] += _amount;
         tokenBalances[to] -= outputTokens;
