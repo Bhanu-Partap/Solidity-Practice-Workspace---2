@@ -12,9 +12,15 @@ contract Pair is ReentrancyGuard {
     
     struct Pool {
         mapping(address => uint256) tokenBalances;
+        Pool2 [] lpdetails;
+    }
+
+    struct Pool2{
         mapping(address => uint256) lpBalances;
         uint256 totalLpTokens;
     }
+
+
 
     modifier validTokenAddresses(address _token0Address,address _token1Address ) {
         require(_token0Address != _token1Address, "Address can't be different");
@@ -112,10 +118,8 @@ contract Pair is ReentrancyGuard {
         require(pool.tokenBalances[_token0Address] == 0, "Pool Already Exist");
         pool.tokenBalances[_token0Address] = _token0Amount;
         pool.tokenBalances[_token1Address] = _token1Amount;
-        pool.lpBalances[msg.sender] = INITIAL_LP_TOKENS;
-        pool.totalLpTokens = INITIAL_LP_TOKENS;
-
-
+        pool.lpdetails[0].lpBalances[msg.sender] = INITIAL_LP_TOKENS;
+        pool.lpdetails[1].totalLpTokens = INITIAL_LP_TOKENS;
     }
 
     function addLiquidity(
@@ -142,11 +146,10 @@ contract Pair is ReentrancyGuard {
         transferToken(_token0Address, _token1Address, _token0Amount,_token1Amount);
         uint currentBalance = pool.tokenBalances[_token0Address];
         uint newTokens = (_token0Amount * INITIAL_LP_TOKENS) / currentBalance;
-
         pool.tokenBalances[_token0Address] += _token0Amount;
         pool.tokenBalances[_token1Address] += _token1Amount;
-        pool.totalLpTokens += newTokens;
-        pool.lpBalances[msg.sender] += newTokens;
+        pool.lpdetails[1].totalLpTokens += newTokens;
+        pool.lpdetails[0].lpBalances[msg.sender] += newTokens;
 
     }
 
@@ -158,14 +161,14 @@ contract Pair is ReentrancyGuard {
         returns (uint256)
     {
         Pool storage pool = getPool(_token0Address, _token1Address);
-        uint balance = pool.lpBalances[msg.sender];
+        uint balance = pool.lpdetails[1].lpBalances[msg.sender];
         require(balance > 0,"No liquidity was provided by the user");
-        uint _token0Amount = (balance * pool.tokenBalances[_token0Address]) / pool.totalLpTokens;
-        uint _token1Amount = (balance * pool.tokenBalances[_token1Address]) / pool.totalLpTokens;
-        pool.lpBalances[msg.sender] = 0;
+        uint _token0Amount = (balance * pool.tokenBalances[_token0Address]) / pool.lpdetails[0].totalLpTokens;
+        uint _token1Amount = (balance * pool.tokenBalances[_token1Address]) / pool.lpdetails[0].totalLpTokens;
+        pool.lpdetails[1].lpBalances[msg.sender] = 0;
         pool.tokenBalances[_token0Address] -= _token0Amount;
         pool.tokenBalances[_token1Address] -= _token1Amount;
-        pool.totalLpTokens -= balance;
+        pool.lpdetails[0].totalLpTokens -= balance;
 
         erc20 token0Address = erc20(_token0Address);
         erc20 token1Address = erc20(_token1Address);
