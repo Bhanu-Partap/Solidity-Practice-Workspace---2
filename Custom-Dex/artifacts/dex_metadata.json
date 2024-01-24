@@ -113,19 +113,6 @@
 				"type": "function"
 			},
 			{
-				"inputs": [],
-				"name": "lptoken",
-				"outputs": [
-					{
-						"internalType": "contract erc20",
-						"name": "",
-						"type": "address"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
 				"inputs": [
 					{
 						"internalType": "address",
@@ -253,11 +240,11 @@
 			]
 		},
 		"Custom-Dex/dex.sol": {
-			"keccak256": "0xebd2bcfb34b9479b1d1f960c53f15856f3a8f9653383af1e583d5f1236184297",
+			"keccak256": "0x0461e188386ea6c7a2b7f720e8dd065ff02c708885de38d110200bb3fefa00c3",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://b11c811f21c9f62cc08379df7a9be1c1882c58db252c368dad31e74495c2dcd8",
-				"dweb:/ipfs/Qmd4bLnUPaxD2tohWyhxwzhyg9Dk12rFbS7axya1cTM7nH"
+				"bzz-raw://06e645619eeb0055f9d015621613a3bda3fe448df1ce186d73256254d57a0e8d",
+				"dweb:/ipfs/QmRqhifb9zH2G1a1B5KdAXdazMiYbTsYsvqvHgrjeRpYhA"
 			]
 		},
 		"Custom-Dex/erc-20.sol": {
