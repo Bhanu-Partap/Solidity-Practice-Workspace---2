@@ -9,9 +9,8 @@ import "hardhat/console.sol";
 
 contract dex is ReentrancyGuard {
     // uint256 INITIAL_LP_TOKENS = 1000 * 10**18;
-    uint256 totalLpTokens;
-    address public lptokenContract;
     // uint256 LP_FEE = 3 *100 /100;
+    uint256 totalLpTokens;
     mapping(address => uint256) tokenBalances;
     mapping(address => uint256) lpBalances;
 
@@ -73,8 +72,8 @@ contract dex is ReentrancyGuard {
 
     function transferToken(uint256 _token0Amount, uint256 _token1Amount) public {
 
-        require( token0Address.transferFrom( msg.sender,address(this), _token0Amount),
-            "Transfer of token0 Failed" );
+        require( token0Address.transferFrom(msg.sender,address(this), _token0Amount),
+            "Transfer of token0 Failed");
         require(token1Address.transferFrom(msg.sender,address(this),_token1Amount ),
             "Transfer of token1 Failed");
     }
@@ -125,13 +124,8 @@ contract dex is ReentrancyGuard {
     }
 
 
-    function addLiquidity(
-        address _token0Address,
-        address _token1Address,
-        uint256 _token0Amount,
-        uint256 _token1Amount
-    )
-        public
+    function addLiquidity( address _token0Address, address _token1Address, uint256 _token0Amount,
+        uint256 _token1Amount ) public
         // validTokenAddresses(_token0Address, _token1Address)
         // hasBalanceAndAllowance(
         //     _token0Address,
@@ -140,12 +134,14 @@ contract dex is ReentrancyGuard {
         //     _token1Amount
         // )
         // // poolMustExist(_token0Address, _token1Address)
-        nonReentrant
-        returns (string memory, uint256)
+        nonReentrant returns (string memory, uint256)
     {
         uint256 token0Price = getSpotPrice(_token0Address, _token1Address);
         console.log(token0Price);
-        require(token0Price * _token0Amount == _token1Amount * 10**18," must add liquidity at current spot price");
+        token0Address.approve(msg.sender, address(this), _token0Amount);
+        token1Address.approve(msg.sender, address(this), _token1Amount);
+        // require(token0Price * _token0Amount == _token1Amount * 10**18," must add liquidity at current spot price");
+//tranfering the tokens from user wallet to the contract
         transferToken(_token0Amount,_token1Amount);
         // uint currentBalance = tokenBalances[_token0Address];
         uint newTokens = Math.sqrt(_token0Amount * _token1Amount);
@@ -155,14 +151,14 @@ contract dex is ReentrancyGuard {
         tokenBalances[_token0Address] += _token0Amount;
         tokenBalances[_token1Address] += _token1Amount;
         totalLpTokens += mintedLpTokens;
-        lpBalances[msg.sender] += mintedLpTokens;
+        lpBalances[msg.sender] = mintedLpTokens;
         return("Lp token balance w.r.t added liquidity",lpBalances[msg.sender]);
     }
 
     function removeLiquidity(address _token0Address, address _token1Address)
     //  validTokenAddresses(_token0Address, _token1Address)
     //     poolMustExist(_token0Address, _token1Address)
-    //     nonReentrant
+        nonReentrant
         public
     {
         uint balance = lpBalances[msg.sender];
