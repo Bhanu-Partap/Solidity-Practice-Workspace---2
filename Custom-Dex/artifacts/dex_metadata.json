@@ -113,6 +113,32 @@
 				"type": "function"
 			},
 			{
+				"inputs": [],
+				"name": "lptokenContract",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "lptokens",
+				"outputs": [
+					{
+						"internalType": "contract erc20",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
 				"inputs": [
 					{
 						"internalType": "address",
@@ -240,11 +266,11 @@
 			]
 		},
 		"Custom-Dex/dex.sol": {
-			"keccak256": "0x0461e188386ea6c7a2b7f720e8dd065ff02c708885de38d110200bb3fefa00c3",
+			"keccak256": "0xbfcdac4d76691ca0313c91c3cfa796fdcee4f2582dbb8db0ea1e51aa4bb724c0",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://06e645619eeb0055f9d015621613a3bda3fe448df1ce186d73256254d57a0e8d",
-				"dweb:/ipfs/QmRqhifb9zH2G1a1B5KdAXdazMiYbTsYsvqvHgrjeRpYhA"
+				"bzz-raw://5f88744f31ab1e9ad65ef7afb72fa1aa181f0df59778b921f7162affd2afbc20",
+				"dweb:/ipfs/QmTdeDiHpTVWMPE6hi6zPvZPvdUCSgvZGyBHkQC3xW5LA6"
 			]
 		},
 		"Custom-Dex/erc-20.sol": {

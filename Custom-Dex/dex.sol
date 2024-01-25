@@ -6,9 +6,10 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "hardhat/console.sol";
 
 contract dex is ReentrancyGuard {
-    uint256 INITIAL_LP_TOKENS = 1000 * 10**18;
-    // uint256 LP_FEE = 3 *100 /100;
+    // uint256 INITIAL_LP_TOKENS = 1000 * 10**18;
     uint256 totalLpTokens;
+    address public lptokenContract;
+    // uint256 LP_FEE = 3 *100 /100;
     mapping(address => uint256) tokenBalances;
     mapping(address => uint256) lpBalances;
 
@@ -58,10 +59,14 @@ contract dex is ReentrancyGuard {
 
     erc20 public token0Address;
     erc20 public token1Address;
+    erc20 public lptokens;
+
+
 
     constructor(address _token1Address, address _token2Address) {
     token0Address = erc20(_token1Address);
     token1Address = erc20(_token2Address);
+    lptokenContract = address(lptokens);
 }
 
     function transferToken(uint256 _token0Amount, uint256 _token1Amount) public {
@@ -100,15 +105,17 @@ contract dex is ReentrancyGuard {
         //     _token1Amount
         // )
         // nonReentrant
+        returns(string memory, uint)
     {
-        require(tokenBalances[_token0Address] == 0, "Pool Already Exist");
-        tokenBalances[_token0Address] = _token0Amount;
-        tokenBalances[_token1Address] = _token1Amount;
+        require(tokenBalances[_token0Address] == 0 && tokenBalances[_token1Address] == 0, "Pool Already Exist");
         token0Address.approve(msg.sender, _token0Address, _token0Amount);
         token1Address.approve(msg.sender, _token1Address, _token1Amount);
-        lpBalances[msg.sender] = INITIAL_LP_TOKENS;
-        totalLpTokens = INITIAL_LP_TOKENS;
+        tokenBalances[_token0Address] = _token0Amount;
+        tokenBalances[_token1Address] = _token1Amount;
+        lpBalances[msg.sender] = lptokens.mint(msg.sender, _token0Amount + _token1Amount);
+        totalLpTokens = lpBalances[msg.sender];
         console.log(totalLpTokens);
+        return ("Lp token recieved : ",totalLpTokens);
     }
 
 
