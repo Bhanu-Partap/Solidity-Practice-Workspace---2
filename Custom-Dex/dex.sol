@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/utils/math/Math.sol";
 import "hardhat/console.sol";
 
 
-contract dex is ReentrancyGuard, Math {
+contract dex is ReentrancyGuard {
     // uint256 INITIAL_LP_TOKENS = 1000 * 10**18;
     uint256 totalLpTokens;
     address public lptokenContract;
@@ -68,7 +68,7 @@ contract dex is ReentrancyGuard, Math {
     constructor(address _token1Address, address _token2Address) {
     token0Address = erc20(_token1Address);
     token1Address = erc20(_token2Address);
-    lptokenContract = address(lptokens);
+    lptokens = new erc20("Lp Token","LP",0);
 }
 
     function transferToken(uint256 _token0Amount, uint256 _token1Amount) public {
@@ -106,7 +106,7 @@ contract dex is ReentrancyGuard, Math {
         //     _token0Amount,
         //     _token1Amount
         // )
-        // nonReentrant
+        nonReentrant
         returns(string memory, uint)
     {
         require(tokenBalances[_token0Address] == 0 && tokenBalances[_token1Address] == 0, "Pool Already Exist");
@@ -114,7 +114,11 @@ contract dex is ReentrancyGuard, Math {
         token1Address.approve(msg.sender, _token1Address, _token1Amount);
         tokenBalances[_token0Address] = _token0Amount;
         tokenBalances[_token1Address] = _token1Amount;
-        lpBalances[msg.sender] = lptokens.mint(msg.sender, _token0Amount + _token1Amount);
+        uint calculatedAmount=Math.sqrt(_token0Amount * _token1Amount);
+        console.log(calculatedAmount);
+        uint mintedLpTokens = lptokens.mint(msg.sender, calculatedAmount);
+        console.log(mintedLpTokens);
+        lpBalances[msg.sender] = mintedLpTokens ;
         totalLpTokens = lpBalances[msg.sender];
         console.log(totalLpTokens);
         return ("Lp token recieved : ",totalLpTokens);
@@ -136,20 +140,22 @@ contract dex is ReentrancyGuard, Math {
         //     _token1Amount
         // )
         // // poolMustExist(_token0Address, _token1Address)
-        // nonReentrant
+        nonReentrant
         returns (string memory, uint256)
     {
         uint256 token0Price = getSpotPrice(_token0Address, _token1Address);
         console.log(token0Price);
         require(token0Price * _token0Amount == _token1Amount * 10**18," must add liquidity at current spot price");
         transferToken(_token0Amount,_token1Amount);
-        uint currentBalance = tokenBalances[_token0Address];
-        uint newTokens = sqrt(_token0Amount * _token1Amount);
+        // uint currentBalance = tokenBalances[_token0Address];
+        uint newTokens = Math.sqrt(_token0Amount * _token1Amount);
         console.log(newTokens);
+        uint mintedLpTokens= lptokens.mint(msg.sender, newTokens);
+        console.log(mintedLpTokens);
         tokenBalances[_token0Address] += _token0Amount;
         tokenBalances[_token1Address] += _token1Amount;
-        totalLpTokens += newTokens;
-        lpBalances[msg.sender] += newTokens;
+        totalLpTokens += mintedLpTokens;
+        lpBalances[msg.sender] += mintedLpTokens;
         return("Lp token balance w.r.t added liquidity",lpBalances[msg.sender]);
     }
 
