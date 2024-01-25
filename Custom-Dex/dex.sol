@@ -3,9 +3,11 @@ pragma solidity 0.8.20;
 
 import "./erc-20.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/utils/math/Math.sol";
 import "hardhat/console.sol";
 
-contract dex is ReentrancyGuard {
+
+contract dex is ReentrancyGuard, Math {
     // uint256 INITIAL_LP_TOKENS = 1000 * 10**18;
     uint256 totalLpTokens;
     address public lptokenContract;
@@ -142,7 +144,7 @@ contract dex is ReentrancyGuard {
         require(token0Price * _token0Amount == _token1Amount * 10**18," must add liquidity at current spot price");
         transferToken(_token0Amount,_token1Amount);
         uint currentBalance = tokenBalances[_token0Address];
-        uint newTokens = (_token0Amount * INITIAL_LP_TOKENS) / currentBalance;
+        uint newTokens = sqrt(_token0Amount * _token1Amount);
         console.log(newTokens);
         tokenBalances[_token0Address] += _token0Amount;
         tokenBalances[_token1Address] += _token1Amount;
