@@ -206,7 +206,6 @@ contract dex is ReentrancyGuard {
         else if(from == address(token1Address)){
             require(token1Address.transferFrom(caller, address(this), _amountIn), "Transfer of token0 Failed");
             require(token0Address.transferFrom(address(this), msg.sender, amountOut), "Transfer of token1 Failed");
-
         }
         // uint outputTokens = tokenBalances[to] * _amountIn / tokenBalances[from] + _amountIn;
         tokenBalances[from] += _amountIn;
