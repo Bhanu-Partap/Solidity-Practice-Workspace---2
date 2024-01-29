@@ -62,8 +62,6 @@ contract dex is ReentrancyGuard {
     erc20 public token1Address;
     erc20 public lptokens;
 
-
-
     constructor(address _token1Address, address _token2Address) {
     token0Address = erc20(_token1Address);
     token1Address = erc20(_token2Address);
