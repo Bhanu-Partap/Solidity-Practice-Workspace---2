@@ -194,20 +194,23 @@ contract dex is ReentrancyGuard {
         address caller = msg.sender;
         // uint r = 10000 - LP_FEE;
         uint k = tokenBalances[from] * tokenBalances[to];
-        uint amountOut = k / (_amountIn + k / tokenBalances[to]);
+        uint _amountOut = k / (_amountIn + k / tokenBalances[to]);
         if(from == address(token0Address)) {
+            token0Address.approve(caller, address(this), _amountIn);
             require(token0Address.transferFrom(caller, address(this), _amountIn), "Transfer of token0 Failed");
-            // token0Address.transferFrom(_from, _to, _value);
-            require(token1Address.transferFrom(address(this), msg.sender, amountOut), "Transfer of token1 Failed");
+            token1Address.approve(address(this),caller, _amountOut);
+            require(token1Address.transferFrom(address(this), msg.sender, _amountOut), "Transfer of token1 Failed");
 
         }
         else if(from == address(token1Address)){
+            token1Address.approve(caller, address(this), _amountIn);
             require(token1Address.transferFrom(caller, address(this), _amountIn), "Transfer of token0 Failed");
-            require(token0Address.transferFrom(address(this), msg.sender, amountOut), "Transfer of token1 Failed");
+            token0Address.approve(address(this),caller, _amountOut);
+            require(token0Address.transferFrom(address(this), msg.sender, _amountOut), "Transfer of token1 Failed");
         }
         // uint outputTokens = tokenBalances[to] * _amountIn / tokenBalances[from] + _amountIn;
         tokenBalances[from] += _amountIn;
-        tokenBalances[to] -= amountOut;
+        tokenBalances[to] -= _amountOut;
         
         // require(token1Address.transfer(msg.sender, outputTokens), "Transfer Failed");
         return("Swapping Completed");
