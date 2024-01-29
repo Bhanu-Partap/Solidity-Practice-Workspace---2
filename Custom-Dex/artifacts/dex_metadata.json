@@ -150,7 +150,23 @@
 					}
 				],
 				"name": "removeLiquidity",
-				"outputs": [],
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
 				"stateMutability": "nonpayable",
 				"type": "function"
 			},
@@ -254,11 +270,11 @@
 			]
 		},
 		"Custom-Dex/dex.sol": {
-			"keccak256": "0x278d850843af350240faf091f2220a34da4e4b8c0ffdc1a42f1621fd72027d5b",
+			"keccak256": "0x2870f1bf433c28fe5a54ae1fe85a0696fd31b2b5210ccc3eb7073b7f6e5e656f",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://8dba01c6304910186d13fc753aa94aed9869db08dfe9e3b87cd5f69ac4cb1aa3",
-				"dweb:/ipfs/QmQNF5dMATcGAEEudQQSmL1MZ1yXwUWaTr8KhDASmxrRqe"
+				"bzz-raw://5d09f972078b9dca726eae11e71a3cd70923eb94a4a3ec9eafd0356c6e1ddfd4",
+				"dweb:/ipfs/QmSrmovmAADSsZMWKgDxxq7Wh1xZ4WHc4dY2WXoubo1uAy"
 			]
 		},
 		"Custom-Dex/erc-20.sol": {

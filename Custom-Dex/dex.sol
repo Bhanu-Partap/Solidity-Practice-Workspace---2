@@ -115,7 +115,7 @@ contract dex is ReentrancyGuard {
         console.log(mintedLpTokens);
         lpBalances[msg.sender] = mintedLpTokens ;
         totalLpTokens = lpBalances[msg.sender];
-        console.log(totalLpTokens);
+        console.log("Lp tokens recieved",totalLpTokens);
         return ("Lp token recieved : ",totalLpTokens);
     }
 
@@ -164,8 +164,9 @@ contract dex is ReentrancyGuard {
     //  validTokenAddresses(_token0Address, _token1Address)
     //     poolMustExist(_token0Address, _token1Address)
         nonReentrant
-        public
+        public returns(string memory, uint, uint)
     {
+        address caller = msg.sender;
         uint balance = lpBalances[msg.sender];
         require(balance > 0,"No liquidity was provided by the user");
         uint _token0Amount = (balance * tokenBalances[_token0Address]) / totalLpTokens;
@@ -173,10 +174,14 @@ contract dex is ReentrancyGuard {
         lpBalances[msg.sender] = 0;
         tokenBalances[_token0Address] -= _token0Amount;
         tokenBalances[_token1Address] -= _token1Amount;
+        lptokens.burn(balance);
         totalLpTokens -= balance;
+        require(token0Address.transferFrom(address(this), caller, _token0Amount));
+        require(token1Address.transferFrom(address(this), caller, _token1Amount));
+        return ("Liquidity recieved",_token0Amount,_token1Amount);
 
-        require(token0Address.transfer(msg.sender, _token0Amount), "Transfer  token0 failed !!");
-        require(token1Address.transfer(msg.sender, _token1Amount), "Transfer  token1 failed !!");
+        // require(token0Address.transfer(msg.sender, _token0Amount), "Transfer  token0 failed !!");
+        // require(token1Address.transfer(msg.sender, _token1Amount), "Transfer  token1 failed !!");
     }
 
     function swap(
