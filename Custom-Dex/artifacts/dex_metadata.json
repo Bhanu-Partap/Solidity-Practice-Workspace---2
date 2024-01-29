@@ -184,7 +184,7 @@
 					},
 					{
 						"internalType": "uint256",
-						"name": "_amount",
+						"name": "_amountIn",
 						"type": "uint256"
 					}
 				],
@@ -270,11 +270,11 @@
 			]
 		},
 		"Custom-Dex/dex.sol": {
-			"keccak256": "0x2870f1bf433c28fe5a54ae1fe85a0696fd31b2b5210ccc3eb7073b7f6e5e656f",
+			"keccak256": "0x28ad5229b4e40fb7c28c7514b7541626f4e5059be42046abfe5895a796efb7dc",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://5d09f972078b9dca726eae11e71a3cd70923eb94a4a3ec9eafd0356c6e1ddfd4",
-				"dweb:/ipfs/QmSrmovmAADSsZMWKgDxxq7Wh1xZ4WHc4dY2WXoubo1uAy"
+				"bzz-raw://db74ce83e4f4e0d97a001f027670a2332605cd7b48277cda785201ca078298d4",
+				"dweb:/ipfs/QmYXZjvzpb1dbzRk64H6XJsemAkcUzG2EKccMbVmD2ftp8"
 			]
 		},
 		"Custom-Dex/erc-20.sol": {

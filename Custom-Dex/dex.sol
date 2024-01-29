@@ -187,20 +187,32 @@ contract dex is ReentrancyGuard {
     function swap(
         address from,
         address to,
-        uint256 _amount
+        uint256 _amountIn
     )
     // validTokenAddresses(from, to)
     //     poolMustExist(from, to)
         nonReentrant
          public returns (string memory) {
+        address caller = msg.sender;
         // uint r = 10000 - LP_FEE;
         uint k = tokenBalances[from] * tokenBalances[to];
-        uint amountIn = k * _amount / 10000;
-        uint outputTokens = tokenBalances[to] * amountIn / tokenBalances[from] + amountIn;
-        tokenBalances[from] += _amount;
-        tokenBalances[to] -= outputTokens;
-        require(token0Address.transferFrom(msg.sender, address(this), _amount), "Transfer Failed");
-        require(token1Address.transfer(msg.sender, outputTokens), "Transfer Failed");
+        uint amountOut = k / (_amountIn + k / tokenBalances[to]);
+        if(from == address(token0Address)) {
+            require(token0Address.transferFrom(caller, address(this), _amountIn), "Transfer of token0 Failed");
+            // token0Address.transferFrom(_from, _to, _value);
+            require(token1Address.transferFrom(address(this), msg.sender, amountOut), "Transfer of token1 Failed");
+
+        }
+        else if(from == address(token1Address)){
+            require(token1Address.transferFrom(caller, address(this), _amountIn), "Transfer of token0 Failed");
+            require(token0Address.transferFrom(address(this), msg.sender, amountOut), "Transfer of token1 Failed");
+
+        }
+        // uint outputTokens = tokenBalances[to] * _amountIn / tokenBalances[from] + _amountIn;
+        tokenBalances[from] += _amountIn;
+        tokenBalances[to] -= amountOut;
+        
+        // require(token1Address.transfer(msg.sender, outputTokens), "Transfer Failed");
         return("Swapping Completed");
     }
 }
