@@ -70,12 +70,9 @@ contract dex is ReentrancyGuard {
     lptokens = new erc20("Lp Token","LP",0);
 }
 
-    function transferToken(uint256 _token0Amount, uint256 _token1Amount) public {
-        require( token0Address.transferFrom(msg.sender,address(this), _token0Amount),
-            "Transfer of token0 Failed");
-        require(token1Address.transferFrom(msg.sender,address(this),_token1Amount ),
-            "Transfer of token1 Failed");
-    }
+    // function transferToken(uint256 _token0Amount, uint256 _token1Amount) public {
+        
+    // }
 
     function getSpotPrice(address _token0Address, address _token1Address)
         public
@@ -138,18 +135,24 @@ contract dex is ReentrancyGuard {
         uint256 token0Price = getSpotPrice(_token0Address, _token1Address);
         console.log(token0Price);
         token0Address.approve(msg.sender, address(this), _token0Amount);
+        console.log("token0approval done");
         token1Address.approve(msg.sender, address(this), _token1Amount);
+        console.log("token1approval done");
+
         // require(token0Price * _token0Amount == _token1Amount * 10**18," must add liquidity at current spot price");
 //tranfering the tokens from user wallet to the contract
-        transferToken(_token0Amount,_token1Amount);
+        // transferToken(_token0Amount,_token1Amount);
+        require(token0Address.transferFrom(msg.sender,address(this),_token0Amount),
+            "Transfer of token0 Failed");
+        require(token1Address.transferFrom(msg.sender,address(this),_token1Amount),
+            "Transfer of token1 Failed");
         // uint currentBalance = tokenBalances[_token0Address];
         uint newTokens = Math.sqrt(_token0Amount * _token1Amount);
         console.log(newTokens);
-        uint mintedLpTokens= lptokens.mint(msg.sender, newTokens);
+        uint mintedLpTokens= lptokens.mint(msg.sender, newTokens) ;
         console.log(mintedLpTokens);
         tokenBalances[_token0Address] += _token0Amount;
         tokenBalances[_token1Address] += _token1Amount;
-        totalLpTokens += mintedLpTokens;
         lpBalances[msg.sender] = mintedLpTokens;
         return("Lp token balance w.r.t added liquidity",lpBalances[msg.sender]);
     }

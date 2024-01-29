@@ -77,11 +77,11 @@ contract erc20 is IERC20{
     //spender will run transfer from function
     function transferFrom(address _from,address _to,uint _value) public returns (bool){
         uint allow = allowed[_from][msg.sender];
-        require(balances[_from]>=_value && allow>=_value);
+        require(balances[_from]>=_value && allow>=_value , " value not");
         balances[_to] += _value;
         balances[_from] -= _value;
         allowed[_from][msg.sender] -=_value; 
-         emit Transfer(_from,_to,_value);
-         return true;
+        emit Transfer(_from,_to,_value);
+        return true;
     }
 }
