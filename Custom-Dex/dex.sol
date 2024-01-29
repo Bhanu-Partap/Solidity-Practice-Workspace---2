@@ -132,6 +132,7 @@ contract dex is ReentrancyGuard {
         // // poolMustExist(_token0Address, _token1Address)
         nonReentrant returns (string memory, uint256)
     {
+        address caller = msg.sender;
         uint256 token0Price = getSpotPrice(_token0Address, _token1Address);
         console.log(token0Price);
         token0Address.approve(msg.sender, address(this), _token0Amount);
@@ -142,6 +143,7 @@ contract dex is ReentrancyGuard {
         // require(token0Price * _token0Amount == _token1Amount * 10**18," must add liquidity at current spot price");
 //tranfering the tokens from user wallet to the contract
         // transferToken(_token0Amount,_token1Amount);
+
         require(token0Address.transferFrom(msg.sender,address(this),_token0Amount),
             "Transfer of token0 Failed");
         require(token1Address.transferFrom(msg.sender,address(this),_token1Amount),
@@ -149,7 +151,8 @@ contract dex is ReentrancyGuard {
         // uint currentBalance = tokenBalances[_token0Address];
         uint newTokens = Math.sqrt(_token0Amount * _token1Amount);
         console.log(newTokens);
-        uint mintedLpTokens= lptokens.mint(msg.sender, newTokens) ;
+        lptokens.mint(caller, newTokens);
+        uint mintedLpTokens = lptokens.balanceOf(caller);
         console.log(mintedLpTokens);
         tokenBalances[_token0Address] += _token0Amount;
         tokenBalances[_token1Address] += _token1Amount;

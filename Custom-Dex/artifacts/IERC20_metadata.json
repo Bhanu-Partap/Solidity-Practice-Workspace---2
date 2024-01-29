@@ -115,11 +115,11 @@
 	},
 	"sources": {
 		"Custom-Dex/erc-20.sol": {
-			"keccak256": "0xb12e7308fed41876a914d6c863b2a072e85117382b7e0a1b086ef5fcba624365",
+			"keccak256": "0x18a47b728891193fa171926b46182136ea9df23f85a9a1b129a090a25f8f2c4c",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://7c031bee77ac6515eba2aca087aff86f70edf5b25835070b6f95a73a750e88e0",
-				"dweb:/ipfs/QmdjByGwAZV5PErvoDA5nWRzborPqDDgHtdpWb7AwQj5Km"
+				"bzz-raw://e1a88ad7481f35b7b9df0d094c80d4c7aed6afdca99658d35de79819eedb761c",
+				"dweb:/ipfs/QmUmdiN7riQ4UfLoxW8PRHU99Znjmi9WHGRqhXuSvZvEkY"
 			]
 		}
 	},

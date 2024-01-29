@@ -77,7 +77,7 @@ contract erc20 is IERC20{
     //spender will run transfer from function
     function transferFrom(address _from,address _to,uint _value) public returns (bool){
         uint allow = allowed[_from][msg.sender];
-        require(balances[_from]>=_value && allow>=_value , " value not");
+        require(balances[_from]>=_value && allow>=_value , " value must be greater");
         balances[_to] += _value;
         balances[_from] -= _value;
         allowed[_from][msg.sender] -=_value; 
