@@ -104,7 +104,9 @@ contract dex is ReentrancyGuard {
     {
         require(tokenBalances[_token0Address] == 0 && tokenBalances[_token1Address] == 0, "Pool Already Exist");
         token0Address.approve(msg.sender, _token0Address, _token0Amount);
+        token0Address.transferFrom(msg.sender, address(this), _token0Amount);
         token1Address.approve(msg.sender, _token1Address, _token1Amount);
+        token1Address.transferFrom(msg.sender, address(this), _token1Amount);
         tokenBalances[_token0Address] = _token0Amount;
         tokenBalances[_token1Address] = _token1Amount;
         uint calculatedAmount=Math.sqrt(_token0Amount * _token1Amount);
@@ -198,19 +200,19 @@ contract dex is ReentrancyGuard {
         console.log(_amountOut);
         if(from == address(token0Address)) {
             token0Address.approve(caller, address(this), _amountIn);
-            console.log("approval token0 done");
+            console.log("approval token0 done : token0Address = from");
             require(token0Address.transferFrom(caller, address(this), _amountIn), "Transfer of token0 Failed");
             token1Address.approve(address(this),caller, _amountOut);
-            console.log("approval token1 done");
+            console.log("approval token1 done : token0Address = from");
             require(token1Address.transferFrom(address(this), msg.sender, _amountOut), "Transfer of token1 Failed");
 
         }
         else if(from == address(token1Address)){
             token1Address.approve(caller, address(this), _amountIn);
-            console.log("approval token1 done");
+            console.log("approval token1 done : token1Address = from");
             require(token1Address.transferFrom(caller, address(this), _amountIn), "Transfer of token0 Failed");
             token0Address.approve(address(this),caller, _amountOut);
-            console.log("approval token0 done");
+            console.log("approval token0 done : token1Address = from");
             require(token0Address.transferFrom(address(this), msg.sender, _amountOut), "Transfer of token1 Failed");
         }
         // uint outputTokens = tokenBalances[to] * _amountIn / tokenBalances[from] + _amountIn;
