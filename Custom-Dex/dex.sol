@@ -164,6 +164,8 @@ contract dex is ReentrancyGuard {
         address caller = msg.sender;
         uint balance = lpBalances[msg.sender];
         require(balance > 0,"No liquidity was provided by the user");
+        console.log(tokenBalances[_token0Address]);
+        console.log(tokenBalances[_token1Address]);
         uint _token0Amount = (balance * tokenBalances[_token0Address]) / totalLpTokens;
         uint _token1Amount = (balance * tokenBalances[_token1Address]) / totalLpTokens;
         lpBalances[msg.sender] = 0;
