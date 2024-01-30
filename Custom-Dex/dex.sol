@@ -137,16 +137,13 @@ contract dex is ReentrancyGuard {
         console.log("token0approval done");
         token1Address.approve(msg.sender, address(this), _token1Amount);
         console.log("token1approval done");
-
         // require(token0Price * _token0Amount == _token1Amount * 10**18," must add liquidity at current spot price");
-//tranfering the tokens from user wallet to the contract
-        // transferToken(_token0Amount,_token1Amount);
 
+//tranfering the tokens from user wallet to the contract
         require(token0Address.transferFrom(msg.sender,address(this),_token0Amount),
             "Transfer of token0 Failed");
         require(token1Address.transferFrom(msg.sender,address(this),_token1Amount),
             "Transfer of token1 Failed");
-        // uint currentBalance = tokenBalances[_token0Address];
         uint newTokens = Math.sqrt(_token0Amount * _token1Amount);
         console.log(newTokens);
         lptokens.mint(caller, newTokens);
@@ -194,18 +191,24 @@ contract dex is ReentrancyGuard {
         address caller = msg.sender;
         // uint r = 10000 - LP_FEE;
         uint k = tokenBalances[from] * tokenBalances[to];
+        console.log(k);
         uint _amountOut = k / (_amountIn + k / tokenBalances[to]);
+        console.log(_amountOut);
         if(from == address(token0Address)) {
             token0Address.approve(caller, address(this), _amountIn);
+            console.log("approval token0 done");
             require(token0Address.transferFrom(caller, address(this), _amountIn), "Transfer of token0 Failed");
             token1Address.approve(address(this),caller, _amountOut);
+            console.log("approval token1 done");
             require(token1Address.transferFrom(address(this), msg.sender, _amountOut), "Transfer of token1 Failed");
 
         }
         else if(from == address(token1Address)){
             token1Address.approve(caller, address(this), _amountIn);
+            console.log("approval token1 done");
             require(token1Address.transferFrom(caller, address(this), _amountIn), "Transfer of token0 Failed");
             token0Address.approve(address(this),caller, _amountOut);
+            console.log("approval token0 done");
             require(token0Address.transferFrom(address(this), msg.sender, _amountOut), "Transfer of token1 Failed");
         }
         // uint outputTokens = tokenBalances[to] * _amountIn / tokenBalances[from] + _amountIn;

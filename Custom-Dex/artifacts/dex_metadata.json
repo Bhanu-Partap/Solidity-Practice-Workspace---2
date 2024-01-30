@@ -270,11 +270,11 @@
 			]
 		},
 		"Custom-Dex/dex.sol": {
-			"keccak256": "0xd42ffcd1da4fb976ecfb78c534655649fa71da5ee557bbaf4fd04ce6502d1af1",
+			"keccak256": "0x88218cb37156552dfb120c3c7e672935776f4e3525eb7888734e24b1cc2ea65c",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://5a33ce41aa8dde3d36757620f69937ae1b55798b64052463c62fa68f037a5305",
-				"dweb:/ipfs/QmSn84z3gGcqJNXqzN8TJ6XkTFUsmxazUSY6CHP7ZLeFjL"
+				"bzz-raw://8dce99b01700cb9678ea57ee6d1d1243046f5dc67dc8d3aeb03887563d41db06",
+				"dweb:/ipfs/QmRRw5sCj7uYu1sXAkE3FSE43qAmk6V7AwSDrvRAFUETgk"
 			]
 		},
 		"Custom-Dex/erc-20.sol": {
