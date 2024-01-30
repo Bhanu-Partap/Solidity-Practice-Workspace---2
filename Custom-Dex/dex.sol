@@ -102,19 +102,20 @@ contract dex is ReentrancyGuard {
         nonReentrant
         returns(string memory, uint)
     {
+        address caller = msg.sender;
         require(tokenBalances[_token0Address] == 0 && tokenBalances[_token1Address] == 0, "Pool Already Exist");
         token0Address.approve(msg.sender, _token0Address, _token0Amount);
-        token0Address.transferFrom(msg.sender, address(this), _token0Amount);
-        token1Address.approve(msg.sender, _token1Address, _token1Amount);
-        token1Address.transferFrom(msg.sender, address(this), _token1Amount);
+        token0Address.transferFrom(caller, address(this), _token0Amount);
+        token1Address.approve(caller, _token1Address, _token1Amount);
+        token1Address.transferFrom(caller, address(this), _token1Amount);
         tokenBalances[_token0Address] = _token0Amount;
         tokenBalances[_token1Address] = _token1Amount;
         uint calculatedAmount=Math.sqrt(_token0Amount * _token1Amount);
         console.log(calculatedAmount);
-        uint mintedLpTokens = lptokens.mint(msg.sender, calculatedAmount);
+        uint mintedLpTokens = lptokens.mint(caller, calculatedAmount);
         console.log(mintedLpTokens);
         lpBalances[msg.sender] = mintedLpTokens ;
-        totalLpTokens = lpBalances[msg.sender];
+        totalLpTokens = lpBalances[caller];
         console.log("Lp tokens recieved",totalLpTokens);
         return ("Lp token recieved : ",totalLpTokens);
     }
