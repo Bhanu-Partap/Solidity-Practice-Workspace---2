@@ -1,0 +1,58 @@
+{
+	"compiler": {
+		"version": "0.8.20+commit.a1b79de6"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"name": "test",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"Practising/Hello.sol": "HelloSolidity"
+		},
+		"evmVersion": "london",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": true,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"Practising/Hello.sol": {
+			"keccak256": "0xbdbab1d6ce711bfd846d8dfb3808155f0b8b5811763ba677ddb7b22eb6675507",
+			"urls": [
+				"bzz-raw://9c9cc31cc39104dc8d49416767c9cb603eada59e3f430763b814e0fc03cb164d",
+				"dweb:/ipfs/QmemkFZmX2UfTzenNsgzC8ai3fdW8a7ehZkRqcj2zkWr7b"
+			]
+		}
+	},
+	"version": 1
+}
