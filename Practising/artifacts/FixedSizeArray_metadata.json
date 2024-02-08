@@ -6,11 +6,6 @@
 	"output": {
 		"abi": [
 			{
-				"inputs": [],
-				"stateMutability": "nonpayable",
-				"type": "constructor"
-			},
-			{
 				"inputs": [
 					{
 						"internalType": "uint256",
@@ -65,11 +60,11 @@
 	},
 	"sources": {
 		"Practising/Hello.sol": {
-			"keccak256": "0xa5d5bf19554345fb274709e47b39a1911813ceeefa0797fbd5616d0cc5783562",
+			"keccak256": "0x2099a95f41579a40ae8f7518b4437a9a8c62ccd4edad93004bb2fe3954d5b9f5",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://4b29e1e78bc6bba7c45467aba0d75a611b861afb80b584e0dca38c61e1e151a6",
-				"dweb:/ipfs/QmV2NXVQMHXWNpEJELjThvKJHxjLPkrnxVKbjZDzqaUzTX"
+				"bzz-raw://af002aa53e9ddd88ee4cdba01640216906db24b3a68171dd229c3bcc625c0ca8",
+				"dweb:/ipfs/QmcwVrPYNd6aCnoWHmrLvHzED7xnwyCEr6DDpp9WZvP3DH"
 			]
 		}
 	},
