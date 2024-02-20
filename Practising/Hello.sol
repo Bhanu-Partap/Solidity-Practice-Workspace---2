@@ -1,10 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.20;
 
+//////////////////////// experimental feature in solidity/////////////////
+// pragma experimental ABIEncoderV2;
+
 contract FixedSizeArray {
     // Declare a fixed size array of 5 integers
     uint[] public fixedArray;
-    
+
 
     // Constructor
     // constructor() {
@@ -23,5 +26,13 @@ contract FixedSizeArray {
         fixedArray.push(i) ;
 
         }
+    
+    
     }
+
+    // function arraytest(uint[] memory arr, uint newValue) public pure returns(uint[] memory newarr){
+    //     newarr= new (arr);
+    // }
+
 }
+

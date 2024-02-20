@@ -60,11 +60,11 @@
 	},
 	"sources": {
 		"Practising/Hello.sol": {
-			"keccak256": "0x2099a95f41579a40ae8f7518b4437a9a8c62ccd4edad93004bb2fe3954d5b9f5",
+			"keccak256": "0x3c66750748e0a7d900c90d86cfb9201267bafdf69bd06ae0140e57bc95d3fd5d",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://af002aa53e9ddd88ee4cdba01640216906db24b3a68171dd229c3bcc625c0ca8",
-				"dweb:/ipfs/QmcwVrPYNd6aCnoWHmrLvHzED7xnwyCEr6DDpp9WZvP3DH"
+				"bzz-raw://62e7c857954e3f692d83092c1dfdac33d10861b24cc80eadd957c8158997ba57",
+				"dweb:/ipfs/Qmb1QUcrYoiVMxPKjaP8wvQZzrwCZFN4m8H6mWbqf1HdEG"
 			]
 		}
 	},
