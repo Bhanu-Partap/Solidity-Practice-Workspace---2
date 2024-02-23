@@ -1,0 +1,105 @@
+{
+	"compiler": {
+		"version": "0.8.20+commit.a1b79de6"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "smartWalletaddress",
+						"type": "address"
+					}
+				],
+				"name": "smartwalletCreated",
+				"type": "event"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_user",
+						"type": "address"
+					}
+				],
+				"name": "createWalletforUser",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_user",
+						"type": "address"
+					}
+				],
+				"name": "getUserwallet",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"CreateWallet/implementation.sol": "implementation"
+		},
+		"evmVersion": "london",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": true,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"CreateWallet/implementation.sol": {
+			"keccak256": "0x4def62a6b54ce314487eda4936fec5eceb4b3dc92bee0d215f797f95bfa749a2",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://07e4fd64cdd8994d3731f966d6533909d5c287650cd632a84da13f11db6089ac",
+				"dweb:/ipfs/QmXc4G7MtrWmjSkECxNXPuUX2V5QyrXmpSoTMTNg6xRsxf"
+			]
+		},
+		"CreateWallet/user.sol": {
+			"keccak256": "0xd83f6a3039fd0d7daf0985552fc2e3fd4520d81ac6947a81754e653885d85571",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://78528c2a5382e27d778c886e5ae74403fda57cda97fcba113f916494683b2348",
+				"dweb:/ipfs/QmUfRxsmMtUzQymntzbTiu9MUr1bSvDuSqRHCyuL8E4Gtf"
+			]
+		}
+	},
+	"version": 1
+}
