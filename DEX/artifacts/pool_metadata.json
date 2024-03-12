@@ -317,11 +317,11 @@
 			]
 		},
 		"DEX/Factory.sol": {
-			"keccak256": "0x45daa9bedbcb0681dd05e3a7d332ffa1707c37ef33dc97b879a546d14af0c792",
+			"keccak256": "0x0f8ae902220ad36f5567af9b1ffeceb90f386ff6a23f0fb6dcdad1eeb3329d9e",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://7fc8475c831a76edb9cda3d82c6fd6912444439d6f0a9ac0fa28de95831b7d61",
-				"dweb:/ipfs/QmV9RgZr5CMZ6VcpHc5QNJnAyYUr2aQYYdpSvXtVsMMTnh"
+				"bzz-raw://3d5ea9e97a757dd33b062d6d3303b0e559409b69577abb1c46d806e8290f7942",
+				"dweb:/ipfs/QmbWk1w6ewNSpa83tjesX6eboU86qMqY4XT72cmumMRUTp"
 			]
 		},
 		"DEX/LPtoken.sol": {

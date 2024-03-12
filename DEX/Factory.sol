@@ -87,7 +87,7 @@ contract factory {
         uint256 _reserve0 = pair.reserveToken0();
         uint256 _reserve1 = pair.reserveToken1();
 
-        if (_reserve0 != 0 && _reserve1 != 0) {
+        if (_reserve0 != 0 && _reserve1 != 0) { 
             require(
                 (_reserve0 > _reserve1 && _amount1 > _amount0) ||
                     (_reserve1 > _reserve0 && _amount0 > _amount1),
