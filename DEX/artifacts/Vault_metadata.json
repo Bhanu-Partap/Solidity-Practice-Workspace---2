@@ -577,11 +577,11 @@
 			]
 		},
 		"DEX/Factory.sol": {
-			"keccak256": "0x0f8ae902220ad36f5567af9b1ffeceb90f386ff6a23f0fb6dcdad1eeb3329d9e",
+			"keccak256": "0x037b343786e8e7a31e0cb75d75ada60a06f5993d1151285e9d388d8687d23d1b",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://3d5ea9e97a757dd33b062d6d3303b0e559409b69577abb1c46d806e8290f7942",
-				"dweb:/ipfs/QmbWk1w6ewNSpa83tjesX6eboU86qMqY4XT72cmumMRUTp"
+				"bzz-raw://4571dedf67c1bcb9f7d5a268c9638e1a84b3017f122d4b68cc2139a6dd238a5e",
+				"dweb:/ipfs/QmWbjN2okQ9ZLgiV222Lzt5ydLXBqn2h7FGiFwUY9kEGBi"
 			]
 		},
 		"DEX/LPtoken.sol": {
