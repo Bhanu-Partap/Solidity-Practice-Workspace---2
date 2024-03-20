@@ -1,6 +1,6 @@
 {
 	"compiler": {
-		"version": "0.8.20+commit.a1b79de6"
+		"version": "0.8.25+commit.b61c2a91"
 	},
 	"language": "Solidity",
 	"output": {
@@ -641,13 +641,13 @@
 		"compilationTarget": {
 			"Practising/NFT.sol": "Nft"
 		},
-		"evmVersion": "london",
+		"evmVersion": "cancun",
 		"libraries": {},
 		"metadata": {
 			"bytecodeHash": "ipfs"
 		},
 		"optimizer": {
-			"enabled": true,
+			"enabled": false,
 			"runs": 200
 		},
 		"remappings": []
@@ -710,11 +710,11 @@
 			]
 		},
 		"@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol": {
-			"keccak256": "0xcc6f49e0c57072d6a18eef0d5fc22a4cc20462c18f0c365d2dd9a2c732fde670",
+			"keccak256": "0xff8cc11100e2d530082b23fbf0bf74e4b182df8f2d33d31f13d9a33d060c0a6a",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://24915e61c7896c336b60788408cd5792b97b782e98e392920a2c55eb1803fe96",
-				"dweb:/ipfs/QmVHhcmFnMYZBCjnVUk6f5quMCDsBR2j669a1nuMiGWY9Z"
+				"bzz-raw://d451b2e9b617f3ac651ce78bcb37bc32368621a7e98b92c69e2073e74cc7247b",
+				"dweb:/ipfs/QmYnWcbAPkwg2w5cxN8D4UnTwgsrAxAG92QGXnwjVH8VGW"
 			]
 		},
 		"@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol": {
@@ -782,11 +782,11 @@
 			]
 		},
 		"Practising/NFT.sol": {
-			"keccak256": "0x0ffbdfb7189e71b78fac8d41e358eaa0b7c407a65cbb2e85a0ad1dbc6e7ebb0e",
+			"keccak256": "0xc74a8ad094d486c4fcad540a720ff08e784b92440861925124c1ea1aa4663f55",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://c8733f52187f845aacd7c2e49b9c487cd322e30150ade7d5614f93e16f1ff5bf",
-				"dweb:/ipfs/QmZCuZcNQy79A8yQhhKVWdKncsgQ4opxCsAxasigWWk7nL"
+				"bzz-raw://4e71fc7ef9ef973fbf7800e8d6878212ac745767eea1aecd87c62fa06e25a4b4",
+				"dweb:/ipfs/QmbrZA98DD3RLii5q7rWNiBAs3sv5U5uCY9XKavA4j5mN4"
 			]
 		}
 	},
